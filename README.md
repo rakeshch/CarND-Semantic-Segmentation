@@ -23,13 +23,13 @@ batch_size: 8
 Below are a few sample images from the output of the fully convolutional network, with the segmentation class overlaid upon the original image in green.
 
 ![Screenshot](./data/output/um_000003.png)
+![Screenshot](./data/output/um_000018.png)
 ![Screenshot](./data/output/um_000010.png)
 ![Screenshot](./data/output/um_000014.png)
 ![Screenshot](./data/output/umm_000035.png)
 ![Screenshot](./data/output/umm_000089.png)
 ![Screenshot](./data/output/uu_000005.png)
 ![Screenshot](./data/output/uu_000011.png)
-![Screenshot](./data/output/um_000018.png)
 
 ### Setup
 ##### GPU
