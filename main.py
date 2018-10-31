@@ -57,7 +57,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     :return: The Tensor for the last layer of output
     """
     # TODO: Implement function
-    # 1x1 convolution to maintain spatial information
+    # 1x1 convolution (of vgg layer 7) to maintain spatial information
     conv_7 = tf.layers.conv2d(vgg_layer7_out, 
                               num_classes, 
                               1, 
@@ -72,7 +72,8 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                                    padding='same',
                                                    kernel_initializer = tf.random_normal_initializer(stddev=STDEV),
                                                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
-    
+
+    # 1x1 convolution (of vgg layer 4) 
     conv_4 = tf.layers.conv2d(vgg_layer4_out,
                               num_classes,
                               1, # kernel_size
@@ -95,7 +96,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                               kernel_initializer = tf.random_normal_initializer(stddev=STDEV),
                               kernel_regularizer= tf.contrib.layers.l2_regularizer(L2_REG))
     # Adding skip layer.
-    second_skip = tf.add(second_upsamplex2, conv_3, name='second_skip')
+    second_skip = tf.add(second_upsamplex2, conv_3)
     # Upsample deconvolution x 8.
     third_upsamplex8 = tf.layers.conv2d_transpose(second_skip, 
                                                   num_classes, 
@@ -208,7 +209,7 @@ def run():
         logits, train_op, cross_entropy_loss = optimize(layer_output, correct_label, learning_rate, num_classes)
         
         # TODO: Train NN using the train_nn function
-        epochs = 10 # 5 10 24 
+        epochs = 20 # 5 10 24 
         batch_size = 8 # 5
 
         saver = tf.train.Saver()
