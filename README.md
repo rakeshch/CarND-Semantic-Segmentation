@@ -1,6 +1,36 @@
 # Semantic Segmentation
 ### Introduction
-In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
+The goal of this project is to label the pixels of a road in images using a Fully Convolutional Network (FCN).
+
+### Architecture 
+This project use VGG-16 image classifier architecture for performing semantic segmentation (trained and tested on the KITTI data set) as described in the [Fully Convolutional Networks for Semantic Segmentation](./References/long_shelhamer_fcn.pdf) by Jonathan Long, Even Shelhamer, and Trevor Darrel.
+
+### Optimizer
+The loss function for the network is cross-entropy, and an Adam optimizer is used.
+
+### Training
+The hyperparameters used for training are:
+
+keep_prob: 0.8
+learning_rate: 1e-4
+epochs: 20
+batch_size: 8
+
+### Result
+
+![Screenshot](./data/output/um_000003.png)
+
+![Screenshot](./data/output/um_000010.png)
+
+![Screenshot](./data/output/um_000014.png)
+
+![Screenshot](./data/output/umm_000035.png)
+
+![Screenshot](./data/output/umm_000089.png)
+
+![Screenshot](./data/output/uu_000005.png)
+
+![Screenshot](./data/output/uu_000011.png)
 
 ### Setup
 ##### GPU
