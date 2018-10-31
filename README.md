@@ -29,6 +29,7 @@ Below are a few sample images from the output of the fully convolutional network
 ![Screenshot](./data/output/umm_000089.png)
 ![Screenshot](./data/output/uu_000005.png)
 ![Screenshot](./data/output/uu_000011.png)
+![Screenshot](./data/output/um_000018.png)
 
 ### Setup
 ##### GPU
