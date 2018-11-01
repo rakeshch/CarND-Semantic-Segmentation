@@ -57,7 +57,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     :return: The Tensor for the last layer of output
     """
     # TODO: Implement function
-    # 1x1 convolution (of vgg layer 7) to maintain spatial information
+    # 1x1 convolution to maintain spatial information
     conv_7 = tf.layers.conv2d(vgg_layer7_out, 
                               num_classes, 
                               1, 
@@ -72,8 +72,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                                                    padding='same',
                                                    kernel_initializer = tf.random_normal_initializer(stddev=STDEV),
                                                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
-
-    # 1x1 convolution (of vgg layer 4) 
+    
     conv_4 = tf.layers.conv2d(vgg_layer4_out,
                               num_classes,
                               1, # kernel_size
@@ -96,7 +95,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                               kernel_initializer = tf.random_normal_initializer(stddev=STDEV),
                               kernel_regularizer= tf.contrib.layers.l2_regularizer(L2_REG))
     # Adding skip layer.
-    second_skip = tf.add(second_upsamplex2, conv_3)
+    second_skip = tf.add(second_upsamplex2, conv_3, name='second_skip')
     # Upsample deconvolution x 8.
     third_upsamplex8 = tf.layers.conv2d_transpose(second_skip, 
                                                   num_classes, 
@@ -122,12 +121,18 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     correct_label = tf.reshape(correct_label, (-1,num_classes))
     # create loss function.
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits= logits, labels= correct_label))
+    
+    # regularization loss 
+    reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
+    reg_constant = 0.01  
+    loss = cross_entropy_loss + reg_constant * sum(reg_losses)
+    
     # Define optimizer. Adam in this case to have variable learning rate.
     optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate)
     # Apply optimizer to the loss function.
     train_op = optimizer.minimize(cross_entropy_loss)
 
-    return logits, train_op, cross_entropy_loss
+    return logits, train_op, loss
 tests.test_optimize(optimize)
 
 
